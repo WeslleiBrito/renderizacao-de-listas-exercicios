@@ -7,13 +7,16 @@ import {
   TaskInput,
   AddTaskButton,
   RemoveButton,
-  LinhaHorizontal
+  LinhaHorizontal,
+  TextoRiscado
 } from "./styled";
 import bin from "../../assets/bin.png";
 
 export function ListaTarefas() {
   const [lista, setLista] = useState(["Fazer exercícios", "Estudar React"]);
   const [novaTarefa, setNovaTarefa] = useState("");
+  const [removidas, setRemovidas] = useState([]);
+
 
   const onChangeTarefa = (event) => {
     setNovaTarefa(event.target.value);
@@ -26,9 +29,16 @@ export function ListaTarefas() {
   };
 
   const removeTarefa = (tarefa) => {
+    const novaRemovidas = [...removidas, tarefa]
+    setRemovidas(novaRemovidas)
+
+    console.log('Removida:', removidas)
+
     const listaFiltrada = lista.filter((item) => item !== tarefa);
     setLista(listaFiltrada);
   };
+
+
 
   return (
     <ListaTarefasContainer>
@@ -54,7 +64,18 @@ export function ListaTarefas() {
           })}
         </ul>
       </ListaContainer>
-      <LinhaHorizontal/>
+      <LinhaHorizontal />
+      <ul>
+        {removidas.map((tarefa, index) => {
+          return (
+            <Tarefa key={index}>
+              <TextoRiscado>{tarefa}</TextoRiscado>
+            </Tarefa>
+          )
+
+        })
+        }
+      </ul>
     </ListaTarefasContainer>
   );
 }
